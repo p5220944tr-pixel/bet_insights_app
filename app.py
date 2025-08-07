@@ -1,15 +1,15 @@
 import streamlit as st
-from utils import get_matches_next_hours, analyze_match
+from utils import get_matches_next_24h, analyze_match
 from config import API_KEY
 
 st.set_page_config(page_title="Bet Insights", layout="centered")
 
 st.title("⚽ Επόμενοι Αγώνες & Ανάλυση")
 
-matches = get_matches_next_hours(API_KEY, hours=12)
+matches = get_matches_next_24h(API_KEY)  # Εδώ καλούμε τη σωστή συνάρτηση
 
 if matches:
-    st.subheader("Επόμενοι αγώνες (επόμενες 12 ώρες):")
+    st.subheader("Επόμενοι αγώνες (επόμενες 24 ώρες):")
     for match in matches:
         with st.expander(f"{match['teams']['home']} vs {match['teams']['away']} - {match['time']}"):
             st.write(f"Ημερομηνία: {match['date']}")
@@ -20,4 +20,4 @@ if matches:
                     st.success("✅ Πιθανότερο στοίχημα:")
                     st.markdown(f"### 💡 {prediction}")
 else:
-    st.warning("Δεν βρέθηκαν αγώνες για τις επόμενες 12 ώρες.")
+    st.warning("Δεν βρέθηκαν αγώνες για τις επόμενες 24 ώρες.")
